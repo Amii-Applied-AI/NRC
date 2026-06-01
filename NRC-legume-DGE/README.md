@@ -4,14 +4,11 @@
 This section gives an overview of the project organization.
 ```
 ├── data                               
-│   ├── processed                       -> Training, validation and test data sets ready for the experiments.                
-│   ├── interim                         -> Datasets created from raw data but not ready for the experiments.
-│   └── raw                             -> Raw data.
+│   ├── raw                             -> Raw data.
 │       └── pea_faba_medicago_grasspea
 │           └── orthogroups.csv         -> csv file with all the orthogroups.
-│           └── shared_ortho.csv        -> csv file with the orthogroup of 4 members.
+│           └── complete_orthogroups.csv-> csv file with the orthogroup of 4 members.
 ├── experiments                         -> Experiment scripts.
-├── records                             -> Experiment records.
 ├── settings                            -> Files with important directory paths.
 └── src                                 -> Code modules and functions required to run the experiments.
     ├── data                            -> Data-related modules and function

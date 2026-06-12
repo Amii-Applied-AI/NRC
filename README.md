@@ -1,6 +1,82 @@
 # NRC-AMII Legume Differential Expression Project
 
-## Project Tree
+## Integrated Processing, Orthology, and Expression Modeling Pipelines
+This project combines three specialized bioinformatics pipelines—two for gene‑level quantification, one for ortholog pair extraction, and one for cross‑species expression modeling. 
+
+ - [Quant‑seq](https://github.com/zx0223winner/Quant-seq-Processing-Pipeline) and [qPro‑seq](https://github.com/zx0223winner/qPro-seq-Processing-Pipeline/tree/main  ) pipeline provide gene expression counts
+ - [OrthologPairSeq](https://github.com/zx0223winner/OrthologPairSeq/tree/main) provides sequence inputs
+ - [OrthoExpression](https://github.com/zx0223winner/OrthoExpression) match the gene pair with the gene expression counts
+ - The [Expression Modeling](https://github.com/Amii-Applied-AI/NRC) (described here) form a unified workflow for comparative genomics, synteny‑aware modeling, and cross‑species expression prediction across pea, faba bean, Medicago, and grasspea.
+
+
+## 🌱 Pipeline Overview
+### 1.1 qPro‑seq Processing Pipeline
+```
+Repository: https://github.com/zx0223winner/qPro-seq-Processing-Pipeline/tree/main  
+Purpose: End‑to‑end processing of PRO‑seq / qPro‑seq nascent transcription data.
+This workflow performs:
+Raw FASTQ QC
+Adapter trimming
+UMI extraction
+STAR alignment
+GeneCounts quantification
+UMI‑aware deduplication
+Strand‑specific bigWig generation
+deepTools matrix/profile/heatmap generation
+It produces high‑resolution nascent transcription counts, suitable for differential expression, promoter activity analysis, and cross‑species modeling.
+See also: PRO‑seq explanation
+```
+
+### 1.2 Quant‑seq Processing Pipeline
+```
+Repository: https://github.com/zx0223winner/Quant-seq-Processing-Pipeline  
+Purpose: Processing of Quant‑seq 3′ mRNA‑seq libraries for steady‑state gene expression.
+This workflow includes:
+FastQC (raw + trimmed)
+Cutadapt trimming
+STAR alignment
+GeneCounts quantification (forward‑stranded)
+CPM normalization
+It outputs clean gene‑level expression matrices for downstream differential expression and cross‑species comparisons.
+See also: Quant‑seq explanation
+```
+
+### 2. OrthologPairSeq
+
+```Repository: https://github.com/zx0223winner/OrthologPairSeq/tree/main  
+Purpose: Extraction of orthologous gene pairs and generation of model‑ready FASTA sequences.
+This pipeline integrates:
+OrthoFinder orthogroup inference
+AGAT GFF→GTF conversion
+BEDOPS GTF→BED conversion
+MCScanX_h synteny filtering
+pyfaidx sequence extraction
+For each ortholog pair, it constructs a 6030 bp model sequence composed of:
+1500 bp upstream of TSS
+500 bp downstream of TSS
+500 bp upstream of TTS
+1500 bp downstream of TTS
+These sequences are used as inputs for deep learning models predicting cross‑species expression.
+See also: ortholog definition
+```
+
+### 3. OrthoExpression
+```
+Repository: https://github.com/zx0223winner/OrthoExpression  
+Purpose: A PyTorch‑based framework for predicting gene expression across species using orthologous sequence pairs.
+Key capabilities:
+5‑fold stratified cross‑validation using orthogroups
+Flexible normalization (median, DESeq2, or none)
+Synteny‑aware data partitioning
+Multi‑task and single‑task learning
+Reverse‑complement and flipped‑pair augmentation
+RMSE, MAE, and Spearman correlation evaluation
+GPU‑accelerated training
+This framework integrates outputs from Quant‑seq, qPro‑seq, and OrthologPairSeq to model how DNA sequence encodes expression variation across legumes.
+See also: cross‑species expression modeling
+```
+
+## Project Tree for the Expression Modeling Pipelines
 This section gives an overview of the project organization.
 ```
 ├── data                               
@@ -19,6 +95,7 @@ This section gives an overview of the project organization.
     └── utils                           -> Other utilities such as custom metrics and loss functions.
 ```
 Note that each Python file in the GitHub repository is accompanied with a description of its purpose. 
+
 
 ## Environment Setup
 
